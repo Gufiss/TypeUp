@@ -13,14 +13,29 @@ MonoBehaviour:
   m_Name: Conveyor_animation
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
-  - {fileID: 324261660997914627, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  - {fileID: 28774297, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  - {fileID: 23369647, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  - {fileID: 450316688, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  - {fileID: 1248884002, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  - {fileID: 2027942726, guid: a2b0925aa31c9fb4c85aae9e6ca1eeb4, type: 3}
-  m_MinSpeed: 15
-  m_MaxSpeed: 15
+  - {fileID: 5325315286585587035, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 5349931478861482881, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 3088229242948756995, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 8081645601195964487, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 1418745662037112110, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 3879974121695390425, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -1746083818366357122, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -5648497155780539171, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -1184842347392258898, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 6532173740462616529, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -1681488199770571045, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -7006066882778005024, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 2345417788135431421, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -2823731762774593699, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 2418523897723516623, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 2413702955680775059, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: 8892763534331841264, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -7793014819050162231, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -8049375599292397744, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -1287604401495034864, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  - {fileID: -5585517857742131382, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
+  m_MinSpeed: 63
+  m_MaxSpeed: 63
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0

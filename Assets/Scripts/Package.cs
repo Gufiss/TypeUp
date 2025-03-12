@@ -1,19 +1,26 @@
+using TMPro;
 using UnityEngine;
 
 public class Package : MonoBehaviour
 {
-    /*[HideInInspector] */ public Vector2 endLoc;
+    [HideInInspector] public Vector2 endLoc;
     [HideInInspector] public float speed;
+    [HideInInspector] public string toType;
 
-    void FixedUpdate()
+    public TextMeshPro word;
+
+    private void Start()
     {
-        // Move towards endLoc at 'speed' per second
+        word.text = toType;
+    }
+
+    void Update()
+    {
         transform.position = Vector2.MoveTowards(transform.position, endLoc, speed * Time.deltaTime);
 
-        // Optional: Destroy or stop movement when reaching the destination
         if ((Vector2)transform.position == endLoc)
         {
-            Destroy(gameObject); // Remove package when it arrives
+            Destroy(gameObject);
         }
     }
 }
