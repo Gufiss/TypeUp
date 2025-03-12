@@ -1,28 +1,31 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class Game_Manager : MonoBehaviour
 {
-    float spawn_timer = 0;
-    int lastIndex = -1;
-    List<string> wordList = new List<string>
-{
-    "adventure", "mystery", "quicksilver", "tapestry", "illusion",
-    "echo", "voyage", "horizon", "enigma", "cryptic",
-    "labyrinth", "alchemy", "arcane", "serenity", "eclipse",
-    "phoenix", "stardust", "temporal", "astronaut", "paradox"
-};
-
-    List<(Vector2 start, Vector2 end)> locations = new List<(Vector2, Vector2)>
-{
-    (new Vector2(10, 2.5f), new Vector2(-10, 2.5f)),
-    (new Vector2(-10, 1.5f), new Vector2(10, 1.5f))
-};
-
     [SerializeField] List<GameObject> activePackages = new List<GameObject>();
+
+    float current_spawn_timer = 0;
+    [SerializeField] float next_spawn_timer = 3;
+
+    int lastIndex = -1;
+    int lastSpawnIndex = -1; 
+
+    List<string> wordList = new List<string>
+    {
+        "adventure", "mystery", "quicksilver", "tapestry", "illusion",
+        "echo", "voyage", "horizon", "enigma", "cryptic",
+        "labyrinth", "alchemy", "arcane", "serenity", "eclipse",
+        "phoenix", "stardust", "temporal", "astronaut", "paradox"
+    };
+    List<(Vector2 start, Vector2 end)> locations = new List<(Vector2, Vector2)>
+    {
+        (new Vector2(10, 3.5f), new Vector2(-10, 3.5f)),
+        (new Vector2(10, 2.5f), new Vector2(-10, 2.5f)),
+        (new Vector2(-10, 1.5f), new Vector2(10, 1.5f)),
+        (new Vector2(-10, 0.5f), new Vector2(10, 0.5f))
+    };
 
     public TMP_InputField typing_field;
     public GameObject package;
@@ -30,12 +33,11 @@ public class Game_Manager : MonoBehaviour
     void Start()
     {
         Invoke(nameof(FocusInputField), 0.1f);
-        GenerateWord();
     }
 
     void Update()
     {
-        spawn_timer -= Time.deltaTime;
+        current_spawn_timer -= Time.deltaTime;
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -44,6 +46,7 @@ public class Game_Manager : MonoBehaviour
                 GameObject package = activePackages[i];
                 if (package.GetComponent<Package>().toType.Trim().ToLower() == typing_field.text.Trim().ToLower())
                 {
+                    next_spawn_timer -= 0.08f;
                     typing_field.text = string.Empty;
                     activePackages.RemoveAt(i);
                     Destroy(package);
@@ -53,10 +56,17 @@ public class Game_Manager : MonoBehaviour
             FocusInputField();
         }
 
-        if (spawn_timer <= 0)
+        if (current_spawn_timer <= 0)
         {
-            spawn_timer = 3;
-            int spawnIndex = Random.Range(0, locations.Count);
+            current_spawn_timer = next_spawn_timer;
+
+            int spawnIndex;
+            do
+            {
+                spawnIndex = Random.Range(0, locations.Count);
+            } while (spawnIndex == lastSpawnIndex);
+
+            lastSpawnIndex = spawnIndex; 
 
             GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
             Package packageScript = newBox.GetComponent<Package>();
@@ -69,7 +79,6 @@ public class Game_Manager : MonoBehaviour
         }
     }
 
-
     public void FocusInputField()
     {
         typing_field.Select();
@@ -81,7 +90,7 @@ public class Game_Manager : MonoBehaviour
         if (wordList.Count == 0)
         {
             Debug.LogError("Word list is empty!");
-            return "null";
+            return string.Empty;
         }
 
         if (wordList.Count == 1)
