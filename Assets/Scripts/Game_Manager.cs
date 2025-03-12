@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class Game_Manager : MonoBehaviour
 {
-    List<string> wordList = new List<string> { "apple", "banana", "orange", "grape", "peach" };
     int lastIndex = -1;
+    float timer = 0;
+    List<string> wordList = new List<string> { "apple", "banana", "orange", "grape", "peach" };
+    List<(Vector2 start, Vector2 end)> locations = new List<(Vector2, Vector2)>
+{
+    (new Vector2(10, 2.5f), new Vector2(-10, 2.5f)),
+    (new Vector2(-10, 1.5f), new Vector2(10, 1.5f))
+};
+
+    [SerializeField]List<GameObject> activePackages = new List<GameObject>();
 
     public TMP_InputField typing_field;
-    public TextMeshProUGUI textBox;
+    public GameObject package;
 
     void Start()
     {
@@ -16,16 +24,22 @@ public class Game_Manager : MonoBehaviour
         GenerateWord();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        timer -= Time.fixedDeltaTime;
+
+        if (timer <= 0)
         {
-            if (textBox.text.ToLower().Equals(typing_field.text.Trim().ToLower()))
-            {
-                typing_field.text = string.Empty;
-                GenerateWord();
-            }
-            FocusInputField();
+            timer = 3;
+            int spawnIndex = Random.Range(0, locations.Count);
+
+            GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
+            Package packageScript = newBox.GetComponent<Package>();
+
+            packageScript.speed = 1.0f;
+            packageScript.endLoc = locations[spawnIndex].end;
+
+            activePackages.Add(newBox);
         }
     }
 
@@ -35,18 +49,17 @@ public class Game_Manager : MonoBehaviour
         typing_field.ActivateInputField();
     }
 
-    void GenerateWord()
+    string GenerateWord()
     {
         if (wordList.Count == 0)
         {
             Debug.LogError("Word list is empty!");
-            return;
+            return "null";
         }
 
         if (wordList.Count == 1)
         {
-            textBox.text = wordList[0];
-            return;
+            return wordList[0];
         }
 
         int index;
@@ -56,6 +69,6 @@ public class Game_Manager : MonoBehaviour
         } while (index == lastIndex);
 
         lastIndex = index;
-        textBox.text = wordList[index];
+        return wordList[index];
     }
 }
