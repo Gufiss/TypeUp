@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Game_Manager : MonoBehaviour
 {
-    [SerializeField] List<GameObject> activePackages = new List<GameObject>();
+    [HideInInspector] public bool gameEnd = false;
 
+    float game_speed;
     float current_spawn_timer = 0;
-    [SerializeField] float next_spawn_timer = 3;
+    float next_spawn_timer = 3;
 
     int lastIndex = -1;
     int lastSpawnIndex = -1; 
 
+    List<GameObject> activePackages = new List<GameObject>();
     List<string> wordList = new List<string>
     {
         "adventure", "mystery", "quicksilver", "tapestry", "illusion",
@@ -29,10 +32,14 @@ public class Game_Manager : MonoBehaviour
 
     public TMP_InputField typing_field;
     public GameObject package;
+    public Heart_Manager heartManager;
+    public Tilemap tilemap;
+
 
     void Start()
     {
         Invoke(nameof(FocusInputField), 0.1f);
+        game_speed = 1.0f;
     }
 
     void Update()
@@ -47,16 +54,18 @@ public class Game_Manager : MonoBehaviour
                 if (package.GetComponent<Package>().toType.Trim().ToLower() == typing_field.text.Trim().ToLower())
                 {
                     next_spawn_timer -= 0.08f;
+                    game_speed += 0.08f;
                     typing_field.text = string.Empty;
                     activePackages.RemoveAt(i);
                     Destroy(package);
+                    UpdateGameSpeed();
                     break;
                 }
             }
             FocusInputField();
         }
 
-        if (current_spawn_timer <= 0)
+        if (current_spawn_timer <= 0 && !gameEnd)
         {
             current_spawn_timer = next_spawn_timer;
 
@@ -71,9 +80,10 @@ public class Game_Manager : MonoBehaviour
             GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
             Package packageScript = newBox.GetComponent<Package>();
 
-            packageScript.speed = 1.0f;
+            packageScript.speed = game_speed;
             packageScript.endLoc = locations[spawnIndex].end;
             packageScript.toType = GenerateWord();
+            packageScript.manager = this;
 
             activePackages.Add(newBox);
         }
@@ -106,5 +116,21 @@ public class Game_Manager : MonoBehaviour
 
         lastIndex = index;
         return wordList[index];
+    }
+
+    void UpdateAnimationSpeed()
+    {
+        tilemap.animationFrameRate = game_speed;
+        Debug.Log("New Animation Speed: " + tilemap.animationFrameRate);
+    }
+
+    void UpdateGameSpeed()
+    {
+        foreach(GameObject obj in activePackages)
+        {
+            Package package = obj.GetComponent<Package>(); 
+            package.speed = game_speed;
+        }
+        UpdateAnimationSpeed();
     }
 }
