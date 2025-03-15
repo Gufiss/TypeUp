@@ -21,7 +21,9 @@ public class Package : MonoBehaviour
 
         if ((Vector2)transform.position == endLoc)
         {
+            manager.activePackages.Remove(gameObject);
             Destroy(gameObject);
+
             manager.heartManager.LoseLife();
             if(manager.heartManager.lives == 0)
             {

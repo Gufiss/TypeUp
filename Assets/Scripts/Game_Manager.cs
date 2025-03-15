@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -12,9 +12,9 @@ public class Game_Manager : MonoBehaviour
     float next_spawn_timer = 3;
 
     int lastIndex = -1;
-    int lastSpawnIndex = -1; 
+    int lastSpawnIndex = -1;
 
-    List<GameObject> activePackages = new List<GameObject>();
+    [HideInInspector] public List<GameObject> activePackages = new List<GameObject>();
     List<string> wordList = new List<string>
     {
         "adventure", "mystery", "quicksilver", "tapestry", "illusion",
@@ -48,22 +48,34 @@ public class Game_Manager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            int removeIndex = -1;
+
             for (int i = 0; i < activePackages.Count; i++)
             {
-                GameObject package = activePackages[i];
-                if (package.GetComponent<Package>().toType.Trim().ToLower() == typing_field.text.Trim().ToLower())
+                Package packageScript = activePackages[i].GetComponent<Package>();
+
+                if (packageScript.toType.Trim().ToLower() == typing_field.text)
                 {
+                    removeIndex = i;
+
                     next_spawn_timer -= 0.08f;
                     game_speed += 0.08f;
                     typing_field.text = string.Empty;
-                    activePackages.RemoveAt(i);
-                    Destroy(package);
                     UpdateGameSpeed();
                     break;
                 }
             }
+
+            if (removeIndex != -1)
+            {
+                GameObject packageToRemove = activePackages[removeIndex];
+                activePackages.RemoveAt(removeIndex);
+                Destroy(packageToRemove);
+            }
+
             FocusInputField();
         }
+
 
         if (current_spawn_timer <= 0 && !gameEnd)
         {
@@ -75,7 +87,7 @@ public class Game_Manager : MonoBehaviour
                 spawnIndex = Random.Range(0, locations.Count);
             } while (spawnIndex == lastSpawnIndex);
 
-            lastSpawnIndex = spawnIndex; 
+            lastSpawnIndex = spawnIndex;
 
             GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
             Package packageScript = newBox.GetComponent<Package>();
@@ -126,9 +138,9 @@ public class Game_Manager : MonoBehaviour
 
     void UpdateGameSpeed()
     {
-        foreach(GameObject obj in activePackages)
+        foreach (GameObject obj in activePackages)
         {
-            Package package = obj.GetComponent<Package>(); 
+            Package package = obj.GetComponent<Package>();
             package.speed = game_speed;
         }
         UpdateAnimationSpeed();
