@@ -58,6 +58,8 @@ public class Game_Manager : MonoBehaviour
                 {
                     removeIndex = i;
 
+                    ScoreManager.instance.AddPoint();
+
                     next_spawn_timer -= 0.08f;
                     game_speed += 0.08f;
                     typing_field.text = string.Empty;
