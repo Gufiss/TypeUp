@@ -1,15 +1,19 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UI_MenuMover : MonoBehaviour
 {
     private RectTransform holder;
     public int direction;
     public float moveSpeed = 5f;
+    private Button[] buttons;
 
     public void TranslateMenu()
     {
+        // Disable all button interactions during movement
+        SetButtonsInteractable(false);
+
         Transform parent = transform.parent;
         if (parent != null && parent.parent != null)
         {
@@ -49,5 +53,22 @@ public class UI_MenuMover : MonoBehaviour
         }
 
         menu.anchoredPosition = targetPosition;
+
+
+        // Re-enable all buttons after the movement is complete
+        SetButtonsInteractable(true);
+    }
+
+    private void SetButtonsInteractable(bool interactable)
+    {
+        // Optionally, refresh the button list if needed
+        if (buttons == null || buttons.Length == 0)
+        {
+            buttons = FindObjectsOfType<Button>();
+        }
+        foreach (Button btn in buttons)
+        {
+            btn.interactable = interactable;
+        }
     }
 }

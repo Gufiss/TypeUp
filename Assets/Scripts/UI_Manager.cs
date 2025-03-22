@@ -16,6 +16,9 @@ public class UI_Manager : MonoBehaviour
     public Sprite music_off;
     public Sprite music_on;
 
+    public Slider musicSlider;
+    public Slider sfxSlider;
+
     public void ChangeScene(int sceneIndex = 0)
     {
         if (sceneIndex >= 0 && sceneIndex < SceneManager.sceneCountInBuildSettings)
@@ -38,7 +41,7 @@ public class UI_Manager : MonoBehaviour
     {
         music_toggle = !music_toggle;
         musicSource.enabled = music_toggle;
-        if(music_toggle)
+        if (music_toggle)
         {
             obj.image.sprite = music_on;
         }
@@ -66,5 +69,15 @@ public class UI_Manager : MonoBehaviour
     {
         sfxSource.clip = audioclip;
         sfxSource.Play();
+    }
+
+    public void ChangeMusicVolume()
+    {
+        musicSource.volume = musicSlider.value;
+    }
+
+    public void ChangeSFXVolume()
+    {
+        sfxSource.volume = sfxSlider.value;
     }
 }
