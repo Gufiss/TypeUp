@@ -7,12 +7,17 @@ public class Game_Manager : MonoBehaviour
 {
     [HideInInspector] public bool gameEnd = false;
 
+    SaveSystem saveSystem;
+
     float game_speed;
     float current_spawn_timer = 0;
     float next_spawn_timer = 3;
 
     int lastIndex = -1;
     int lastSpawnIndex = -1;
+
+    int correct_guess = 0;
+    int incorrect_guess = 0;
 
     [HideInInspector] public List<GameObject> activePackages = new List<GameObject>();
     List<string> wordList = new List<string>
@@ -38,6 +43,7 @@ public class Game_Manager : MonoBehaviour
 
     void Start()
     {
+        saveSystem = GetComponent<SaveSystem>();
         Invoke(nameof(FocusInputField), 0.1f);
         game_speed = 1.0f;
     }
@@ -46,6 +52,8 @@ public class Game_Manager : MonoBehaviour
     {
         current_spawn_timer -= Time.deltaTime;
 
+
+        // Word typing
         if (Input.GetKeyDown(KeyCode.Return))
         {
             int removeIndex = -1;
@@ -73,12 +81,17 @@ public class Game_Manager : MonoBehaviour
                 GameObject packageToRemove = activePackages[removeIndex];
                 activePackages.RemoveAt(removeIndex);
                 Destroy(packageToRemove);
+                correct_guess++;
+            }
+            else if (typing_field.text != string.Empty)
+            {
+                incorrect_guess++;
             }
 
             FocusInputField();
         }
 
-
+        // Word spawning
         if (current_spawn_timer <= 0 && !gameEnd)
         {
             current_spawn_timer = next_spawn_timer;
@@ -100,6 +113,14 @@ public class Game_Manager : MonoBehaviour
             packageScript.manager = this;
 
             activePackages.Add(newBox);
+        }
+
+        if (gameEnd)
+        {
+            Debug.Log($"Correct: {correct_guess}   Incorrect: {incorrect_guess}   Proc: {(float)correct_guess / (correct_guess + incorrect_guess) * 100:N2}%");
+
+            saveSystem.SaveData("correct_guess", saveSystem.LoadData("correct_guess") as int? ?? 0 + correct_guess);
+            saveSystem.SaveData("incorrect_guess", saveSystem.LoadData("incorrect_guess") as int? ?? 0 + incorrect_guess);
         }
     }
 
