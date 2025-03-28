@@ -79,4 +79,10 @@ public class UI_Manager : MonoBehaviour
     {
         sfxSource.volume = sfxSlider.value;
     }
+
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
