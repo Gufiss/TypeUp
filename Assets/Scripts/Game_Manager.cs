@@ -19,6 +19,9 @@ public class Game_Manager : MonoBehaviour
     int correct_guess = 0;
     int incorrect_guess = 0;
 
+    public TextMeshProUGUI scoreText;
+    private int score = 0;
+
     [HideInInspector] public List<GameObject> activePackages = new List<GameObject>();
     List<string> wordList = new List<string>
     {
@@ -46,6 +49,7 @@ public class Game_Manager : MonoBehaviour
         saveSystem = GetComponent<SaveSystem>();
         Invoke(nameof(FocusInputField), 0.1f);
         game_speed = 1.0f;
+        UpdateScoreText();
     }
 
     void Update()
@@ -66,7 +70,7 @@ public class Game_Manager : MonoBehaviour
                 {
                     removeIndex = i;
 
-                    ScoreManager.instance.AddPoint();
+                    AddPoint();
 
                     next_spawn_timer -= 0.08f;
                     game_speed += 0.08f;
@@ -167,5 +171,16 @@ public class Game_Manager : MonoBehaviour
             package.speed = game_speed;
         }
         UpdateAnimationSpeed();
+    }
+
+    public void AddPoint()
+    {
+        score += 10;
+        UpdateScoreText();
+    }
+
+    private void UpdateScoreText()
+    {
+        scoreText.text = "Score: " + score.ToString();
     }
 }
