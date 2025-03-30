@@ -24,6 +24,11 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
     }
 
+    public int GetScore() // Method to get the current score
+    {
+        return score;
+    }
+
     private void UpdateScoreText()
     {
         scoreText.text = "Score: " + score.ToString();

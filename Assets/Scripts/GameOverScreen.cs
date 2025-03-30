@@ -1,10 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameOverScreen : MonoBehaviour
 {
     public GameObject gameOver;
-    public Heart_Manager heartManager; // Reference to Heart_Manager
+    public Heart_Manager heartManager;
+    public AudioSource gameOverSound;
+    public TextMeshProUGUI scoreText; // Reference to the TextMeshProUGUI for displaying score
+
+    private bool soundPlayed = false;
 
     void Start()
     {
@@ -14,20 +19,37 @@ public class GameOverScreen : MonoBehaviour
 
     void Update()
     {
-        if (heartManager.lives <= 0) // Use heartManager's lives count
+        if (heartManager.lives <= 0)
         {
             gameOver.SetActive(true);
             Time.timeScale = 0f;
+            PlayGameOverSound();
+            DisplayFinalScore(); // Display score when game over screen is shown
         }
     }
 
     public void TakeDamage()
     {
-        heartManager.LoseLife(); // Reduce lives through Heart_Manager
+        heartManager.LoseLife();
     }
 
     public void MainMenuButton()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    void PlayGameOverSound()
+    {
+        if (!soundPlayed && gameOverSound != null)
+        {
+            gameOverSound.Play();
+            soundPlayed = true;
+        }
+    }
+
+    void DisplayFinalScore()
+    {
+        // Access the score from ScoreManager and display it on the game over screen
+        scoreText.text = "Score: " + ScoreManager.instance.GetScore().ToString();
     }
 }
