@@ -21,12 +21,53 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector] public List<GameObject> activePackages = new List<GameObject>();
     List<string> wordList = new List<string>
-    {
-        "adventure", "mystery", "quicksilver", "tapestry", "illusion",
-        "echo", "voyage", "horizon", "enigma", "cryptic",
-        "labyrinth", "alchemy", "arcane", "serenity", "eclipse",
-        "phoenix", "stardust", "temporal", "astronaut", "paradox"
-    };
+{
+    "adventure", "mystery", "quicksilver", "tapestry", "illusion",
+    "echo", "voyage", "horizon", "enigma", "cryptic",
+    "labyrinth", "alchemy", "arcane", "serenity", "eclipse",
+    "phoenix", "stardust", "temporal", "astronaut", "paradox",
+    "apple", "banana", "ocean", "river", "forest",
+    "cloud", "breeze", "happy", "garden", "morning",
+    "sunset", "laughter", "puzzle", "window", "blanket",
+    "whisper", "shadow", "friend", "smile", "butterfly",
+    "castle", "sunshine", "flower", "melody", "gentle",
+    "spark", "candle", "glimmer", "pebble", "snowflake",
+    "warmth", "feather", "butter", "honey", "pencil",
+    "painter", "lighthouse", "harbor", "lantern", "storybook",
+    "meadow", "rainbow", "firefly", "treasure", "whistle",
+    "echo", "riverbank", "starlight", "moonlight", "cottage",
+    "fountain", "horizon", "voyage", "daydream", "seashell",
+    "guitar", "sailing", "twinkle", "cotton", "balloon",
+    "parade", "silver", "evening", "summer", "autumn",
+    "daisy", "coconut", "drizzle", "tulip", "bubble",
+    "peach", "harvest", "glow", "twilight", "moonbeam",
+    "nest", "hammock", "ripple", "puddle", "raindrop",
+    "sunbeam", "cozy", "swan", "mist", "fireplace",
+    "comet", "button", "cushion", "velvet", "marble",
+    "canvas", "cinnamon", "sprout", "whimsy", "jigsaw",
+    "sparkle", "flicker", "cobblestone", "sugar", "fable",
+    "chime", "carnival", "giggle", "picnic", "skylark",
+    "tender", "dew", "bamboo", "murmur", "tinker",
+    "sprinkle", "symphony", "petal", "twirl", "cherry",
+    "saffron", "serene", "harmony", "buttercup", "treat",
+    "pajamas", "fluffy", "honeycomb", "carousel", "popsicle",
+    "peppermint", "whisk", "snuggle", "jellybean", "marshmallow",
+    "dandelion", "cupcake", "ribbon", "cuddle", "pitter-patter",
+    "snowball", "lullaby", "chocolate", "waffle", "pancake",
+    "butterscotch", "truffle", "sugarplum", "gingerbread", "blueberry",
+    "strawberry", "whipped", "meringue", "parfait", "cheesecake",
+    "macaroon", "butterfly", "glow", "ginger", "sugarcube",
+    "snicker", "stardust", "dream", "frost", "delight",
+    "satin", "honeydew", "moonlit", "whistle", "jungle",
+    "orchard", "starfish", "maple", "lavender", "clover",
+    "hazel", "ember", "tangerine", "plum", "raisin",
+    "caramel", "mulberry", "fern", "willow", "raven",
+    "topaz", "pearl", "meadowlark", "emberglow", "tidal",
+    "rosy", "charcoal", "brisk", "glade", "marigold",
+    "evergreen", "gentian", "moonrise", "crimson", "butterflyfish",
+    "cobweb", "cinnamonstick", "clifftop", "dawnlight", "brook",
+    "seabreeze", "goldfinch", "straw", "seaglass", "driftwood"
+};
     List<(Vector2 start, Vector2 end)> locations = new List<(Vector2, Vector2)>
     {
         (new Vector2(10, 3.5f), new Vector2(-10, 3.5f)),
