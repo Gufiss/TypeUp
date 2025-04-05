@@ -1343,6 +1343,8 @@ MonoBehaviour:
   music_on: {fileID: 21300000, guid: 466189f5c654ae546b981b13dacfef58, type: 3}
   musicSlider: {fileID: 1629412158}
   sfxSlider: {fileID: 780726394}
+  musicButton: {fileID: 164550355}
+  sfxButton: {fileID: 1357361868}
 --- !u!82 &636667701
 AudioSource:
   m_ObjectHideFlags: 0
