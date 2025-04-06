@@ -3507,7 +3507,6 @@ MonoBehaviour:
   activePackages: []
   typing_field: {fileID: 935016162}
   package: {fileID: 1186698006308273156, guid: a266c9a6d27aaa94f901092277103de9, type: 3}
-  package_rem: {fileID: 2675500139696309364, guid: a880956e14b916d4092c7c305c16ff8c, type: 3}
   heartManager: {fileID: 1161115761}
   tilemap: {fileID: 1199471611}
 --- !u!114 &811771110
@@ -6522,7 +6521,7 @@ Tilemap:
       - {fileID: -8049375599292397744, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
       - {fileID: -1287604401495034864, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
       - {fileID: -5585517857742131382, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
-      m_AnimationSpeed: 63.000004
+      m_AnimationSpeed: 63
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -7, y: 2, z: 0}
@@ -6690,7 +6689,7 @@ Tilemap:
       - {fileID: -8049375599292397744, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
       - {fileID: -1287604401495034864, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
       - {fileID: -5585517857742131382, guid: c8a46c09c7be33547be4e1b99f5aaa17, type: 3}
-      m_AnimationSpeed: 63.000004
+      m_AnimationSpeed: 63
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -1, y: 2, z: 0}
