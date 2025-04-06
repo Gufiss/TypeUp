@@ -7,9 +7,12 @@ public class PauseMenu : MonoBehaviour
 {
     public bool Paused = false;
     public GameObject pauseMenu;
-    
+
+    private Game_Manager game_Manager;
+
     void Start()
     {
+        game_Manager = GetComponent<Game_Manager>();
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
@@ -45,6 +48,16 @@ public class PauseMenu : MonoBehaviour
 
     public void MainMenuButton()
     {
+        int correctGuess = (game_Manager.saveSystem.LoadData("correct_guess") as int? ?? 0);
+        int incorrectGuess = (game_Manager.saveSystem.LoadData("incorrect_guess") as int? ?? 0);
+        correctGuess += game_Manager.correct_guess;
+        incorrectGuess += game_Manager.incorrect_guess;
+
+        game_Manager.saveSystem.SaveData("correct_guess", correctGuess);
+        game_Manager.saveSystem.SaveData("incorrect_guess", incorrectGuess);
+
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
+
 }

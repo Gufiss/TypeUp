@@ -9,47 +9,61 @@ public class GameOverScreen : MonoBehaviour
     public AudioSource gameOverSound;
     public TextMeshProUGUI scoreText; // Reference to the TextMeshProUGUI for displaying score
 
+
+    private Game_Manager game_Manager;
     private bool soundPlayed = false;
 
     void Start()
     {
+        game_Manager = GetComponent<Game_Manager>();
         gameOver.SetActive(false);
         Time.timeScale = 1f;
     }
 
     void Update()
     {
-        if (heartManager.lives <= 0)
+        if (!soundPlayed && heartManager.lives <= 0)
         {
+            soundPlayed = true;
             gameOver.SetActive(true);
-            Time.timeScale = 0f;
             PlayGameOverSound();
             DisplayFinalScore(); // Display score when game over screen is shown
         }
     }
 
-    public void TakeDamage()
+    public void ChangeSceneButton(int index)
     {
-        heartManager.LoseLife();
-    }
+        int correctGuess = (game_Manager.saveSystem.LoadData("correct_guess") as int? ?? 0);
+        int incorrectGuess = (game_Manager.saveSystem.LoadData("incorrect_guess") as int? ?? 0);
+        int highscore = (game_Manager.saveSystem.LoadData("highscore") as int? ?? 0);
+        int gameCount = (game_Manager.saveSystem.LoadData("gameCount") as int? ?? 0);
 
-    public void MainMenuButton()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        correctGuess += game_Manager.correct_guess;
+        incorrectGuess += game_Manager.incorrect_guess;
+        gameCount++;
+
+        if (highscore < game_Manager.score)
+        {
+            game_Manager.saveSystem.SaveData("highscore", game_Manager.score);
+        }
+
+        game_Manager.saveSystem.SaveData("correct_guess", correctGuess);
+        game_Manager.saveSystem.SaveData("incorrect_guess", incorrectGuess);
+        game_Manager.saveSystem.SaveData("gameCount", gameCount);
+
+        SceneManager.LoadScene(index);
     }
 
     void PlayGameOverSound()
     {
-        if (!soundPlayed && gameOverSound != null)
+        if (gameOverSound != null)
         {
             gameOverSound.Play();
-            soundPlayed = true;
         }
     }
 
     void DisplayFinalScore()
     {
-        // Access the score from ScoreManager and display it on the game over screen
-        scoreText.text = "Score: " + ScoreManager.instance.GetScore().ToString();
+        scoreText.text = game_Manager.scoreText.text;
     }
 }

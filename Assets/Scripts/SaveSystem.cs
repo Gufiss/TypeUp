@@ -25,6 +25,8 @@ public class SaveSystem : MonoBehaviour
                 Debug.Log("Unsupported data type");
                 break;
         }
+
+        PlayerPrefs.Save();
     }
 
     public object LoadData(string key)
@@ -33,16 +35,19 @@ public class SaveSystem : MonoBehaviour
         {
             if (PlayerPrefs.GetString(key) != "")
             {
+                Debug.Log("Loading string data");
                 return PlayerPrefs.GetString(key);
             }
 
             if (PlayerPrefs.GetInt(key) != 0)
             {
+                Debug.Log("Loading int data");
                 return PlayerPrefs.GetInt(key);
             }
 
             if (PlayerPrefs.GetFloat(key) != 0f)
             {
+                Debug.Log("Loading float data");
                 return PlayerPrefs.GetFloat(key);
             }
         }
