@@ -37,6 +37,7 @@ public class Game_Manager : MonoBehaviour
 
     public TMP_InputField typing_field;
     public GameObject package;
+    public GameObject package_rem;
     public Heart_Manager heartManager;
     public Tilemap tilemap;
 
@@ -79,6 +80,7 @@ public class Game_Manager : MonoBehaviour
             if (removeIndex != -1)
             {
                 GameObject packageToRemove = activePackages[removeIndex];
+                Instantiate(package_rem, packageToRemove.transform.position, packageToRemove.transform.rotation);
                 activePackages.RemoveAt(removeIndex);
                 Destroy(packageToRemove);
                 correct_guess++;
