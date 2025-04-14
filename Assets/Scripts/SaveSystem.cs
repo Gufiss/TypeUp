@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveSystem : MonoBehaviour
 {
@@ -63,5 +64,16 @@ public class SaveSystem : MonoBehaviour
     public void DeleteAllData()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    public void WipeProgress()
+    {
+        PlayerPrefs.DeleteKey("correct_guess");
+        PlayerPrefs.DeleteKey("incorrect_guess");
+        PlayerPrefs.DeleteKey("highscore");
+        PlayerPrefs.DeleteKey("gameCount");
+        PlayerPrefs.DeleteKey("totalPlaytime");
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

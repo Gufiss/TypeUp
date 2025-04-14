@@ -50,11 +50,15 @@ public class PauseMenu : MonoBehaviour
     {
         int correctGuess = (game_Manager.saveSystem.LoadData("correct_guess") as int? ?? 0);
         int incorrectGuess = (game_Manager.saveSystem.LoadData("incorrect_guess") as int? ?? 0);
+        float totalPlaytime = (game_Manager.saveSystem.LoadData("totalPlaytime") as float? ?? 0f);
+
         correctGuess += game_Manager.correct_guess;
         incorrectGuess += game_Manager.incorrect_guess;
+        totalPlaytime += game_Manager.sessionPlaytime;
 
         game_Manager.saveSystem.SaveData("correct_guess", correctGuess);
         game_Manager.saveSystem.SaveData("incorrect_guess", incorrectGuess);
+        game_Manager.saveSystem.SaveData("totalPlaytime", totalPlaytime);
 
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);

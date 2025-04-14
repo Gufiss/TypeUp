@@ -13,6 +13,9 @@ public class Game_Manager : MonoBehaviour
     float current_spawn_timer = 0;
     float next_spawn_timer = 3;
 
+    [HideInInspector]
+    public float sessionPlaytime = 0f;
+
     int lastIndex = -1;
     int lastSpawnIndex = -1;
 
@@ -155,27 +158,33 @@ public class Game_Manager : MonoBehaviour
         }
 
         // Word spawning
-        if (current_spawn_timer <= 0 && !gameEnd)
+        if (!gameEnd)
         {
-            current_spawn_timer = next_spawn_timer;
+            sessionPlaytime += Time.deltaTime;
 
-            int spawnIndex;
-            do
+            if (current_spawn_timer <= 0)
             {
-                spawnIndex = Random.Range(0, locations.Count);
-            } while (spawnIndex == lastSpawnIndex);
+                current_spawn_timer = next_spawn_timer;
 
-            lastSpawnIndex = spawnIndex;
+                int spawnIndex;
+                do
+                {
+                    spawnIndex = Random.Range(0, locations.Count);
+                } while (spawnIndex == lastSpawnIndex);
 
-            GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
-            Package packageScript = newBox.GetComponent<Package>();
+                lastSpawnIndex = spawnIndex;
 
-            packageScript.speed = game_speed;
-            packageScript.endLoc = locations[spawnIndex].end;
-            packageScript.toType = GenerateWord();
-            packageScript.manager = this;
+                GameObject newBox = Instantiate(package, (Vector3)locations[spawnIndex].start, Quaternion.identity);
+                Package packageScript = newBox.GetComponent<Package>();
 
-            activePackages.Add(newBox);
+                packageScript.speed = game_speed;
+                packageScript.endLoc = locations[spawnIndex].end;
+                packageScript.toType = GenerateWord();
+                packageScript.manager = this;
+
+                activePackages.Add(newBox);
+            }
+
         }
     }
 
