@@ -9,6 +9,8 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector] public SaveSystem saveSystem;
 
+    float cur_diff = 3;
+    float max_diff;
     float game_speed;
     float current_spawn_timer = 0;
     float next_spawn_timer = 3;
@@ -28,67 +30,7 @@ public class Game_Manager : MonoBehaviour
     public int score = 0;
 
     [HideInInspector] public List<GameObject> activePackages = new List<GameObject>();
-    List<string> wordList = new List<string>
-    {
-        "adventure", "mystery", "quicksilver", "tapestry", "illusion",
-        "echo", "voyage", "horizon", "enigma", "cryptic",
-        "labyrinth", "alchemy", "arcane", "serenity", "eclipse",
-        "phoenix", "stardust", "temporal", "astronaut", "paradox",
-
-        "legend", "shadow", "memory", "journey", "secret",
-        "future", "origin", "presence", "gravity", "signal",
-        "tempest", "planetary", "galaxy", "universe", "scientific",
-        "hazard", "rescue", "expedition", "tracker", "escapee",
-        "liberation", "timeline", "exploration", "visionary", "reflection",
-        "citadel", "territory", "jungle", "wilderness", "fortress",
-        "conflict", "commander", "adversary", "champion", "operation",
-        "arsenal", "barrier", "sorcery", "strength", "curse",
-        "enigma", "map", "treasure", "clue", "passage",
-        "revelation", "ambition", "hopeful", "decision", "message",
-        "frequency", "gadget", "portal", "radiation", "artifact",
-        "satellite", "rotation", "spaceship", "rocket", "cosmos",
-        "radiance", "obscurity", "risky", "illusion", "uncertainty",
-        "outsider", "companion", "foe", "vanished", "recovered",
-        "gateway", "dimension", "keyhole", "cipher", "unlock",
-        "evidence", "investigation", "operative", "document", "verification",
-        "query", "response", "strategy", "objective", "crew",
-        "symbolic", "transmission", "identity", "ambition", "command",
-        "opportunity", "snare", "threat", "disturbance", "chronos",
-        "mechanism", "interval", "duration", "sequence", "momentum",
-        "site", "locale", "sector", "zone", "province",
-        "access", "departure", "platform", "structure", "threshold",
-        "portal", "barrier", "summit", "elevation", "pathway",
-        "vessel", "stream", "element", "ember", "gust",
-        "atmosphere", "fog", "downpour", "blizzard", "tempest",
-        "frost", "blaze", "crystal", "fluctuation", "obscurity",
-        "figure", "design", "palette", "signal", "panorama",
-        "incident", "turning", "opportunity", "maneuver", "advance",
-        "proceed", "depart", "leap", "descend", "ascend",
-        "unseal", "conceal", "reveal", "construct", "fracture",
-        "transform", "monitor", "pursue", "guide", "navigate",
-        "remain", "retreat", "recover", "erase", "recall",
-        "formulate", "eliminate", "deliver", "acquire", "transport",
-        "grasp", "release", "propel", "withdraw", "manipulate",
-        "compose", "examine", "illustrate", "craft", "forge",
-        "combat", "triumph", "retreat", "rescue", "investigate",
-        "glance", "observe", "detect", "perceive", "encounter",
-        "advance", "suspend", "obstruct", "navigate", "engage",
-        "shield", "patrol", "pursue", "conceal", "expose",
-        "dread", "valiant", "resilient", "fragile", "secure",
-        "mute", "deafening", "rapid", "gradual", "lofty",
-        "remote", "radiant", "dim", "adjacent", "distant",
-        "initial", "ultimate", "forthcoming", "uniform", "distinct",
-        "authentic", "counterfeit", "intelligent", "witty", "accurate",
-        "misleading", "rigid", "flexible", "dense", "weightless",
-        "swift", "precise", "polished", "textured", "immaculate",
-        "grimy", "ancient", "novel", "youthful", "historic",
-        "futuristic", "straightforward", "intricate", "fundamental", "evident",
-        "profound", "vacant", "occupied", "concealed", "motionless",
-        "isolated", "unified", "confidential", "transparent", "accessible",
-        "sealed", "secured", "monitored", "damaged", "repaired",
-        "protected", "hazardous", "living", "deceased", "misplaced",
-        "retrieved", "recognized", "obscured", "accurate", "inaccurate"
-    };
+    List<string> wordList = new List<string>();
 
     List<(Vector2 start, Vector2 end)> locations = new List<(Vector2, Vector2)>
     {
@@ -107,9 +49,10 @@ public class Game_Manager : MonoBehaviour
 
     void Start()
     {
-        saveSystem = GetComponent<SaveSystem>();
-        Invoke(nameof(FocusInputField), 0.1f);
         game_speed = 1.0f;
+        saveSystem = GetComponent<SaveSystem>();
+        LoadWords();
+        Invoke(nameof(FocusInputField), 0.1f);
         UpdateScoreText();
     }
 
@@ -127,15 +70,16 @@ public class Game_Manager : MonoBehaviour
             {
                 Package packageScript = activePackages[i].GetComponent<Package>();
 
-                if (packageScript.toType.Trim().ToLower() == typing_field.text)
+                if (packageScript.toType.Trim().ToLower() == typing_field.text.Trim().ToLower())
                 {
-                    removeIndex = i;
+                    next_spawn_timer -= 0.01f;
+                    removeIndex = i; 
 
-                    AddPoint();
-
-                    next_spawn_timer -= 0.08f;
-                    game_speed += 0.08f;
+                    AddPoint(typing_field.text.Trim().ToLower());
                     typing_field.text = string.Empty;
+                    cur_diff += 0.2f;
+
+                    game_speed += 0.01f;
                     UpdateGameSpeed();
                     break;
                 }
@@ -202,19 +146,14 @@ public class Game_Manager : MonoBehaviour
             return string.Empty;
         }
 
-        if (wordList.Count == 1)
-        {
-            return wordList[0];
-        }
-
         int index;
         do
         {
             index = Random.Range(0, wordList.Count);
-        } while (index == lastIndex);
+        } while (index == lastIndex || wordList[index].Length < cur_diff - 3 || wordList[index].Length > cur_diff + 1);
 
         lastIndex = index;
-        return wordList[index];
+        return wordList[index].Trim().ToLower();
     }
 
     void UpdateAnimationSpeed()
@@ -233,9 +172,9 @@ public class Game_Manager : MonoBehaviour
         UpdateAnimationSpeed();
     }
 
-    public void AddPoint()
+    public void AddPoint(string word)
     {
-        score += 10;
+        score += word.Length;
         UpdateScoreText();
     }
 
@@ -243,4 +182,30 @@ public class Game_Manager : MonoBehaviour
     {
         scoreText.text = "Score: " + score.ToString();
     }
+
+    void LoadWords()
+    {
+        TextAsset wordFile = Resources.Load<TextAsset>("words");
+        if (wordFile != null)
+        {
+            string[] lines = wordFile.text.Split(new[] { '\n', '\r' }, System.StringSplitOptions.RemoveEmptyEntries);
+            wordList.AddRange(lines);
+
+            string longestWord = "";
+            foreach (string word in wordList)
+            {
+                string trimmedWord = word.Trim();
+                if (trimmedWord.Length > longestWord.Length)
+                {
+                    longestWord = trimmedWord;
+                }
+            }
+            max_diff = longestWord.Length;
+        }
+        else
+        {
+            Debug.LogError("Could not find words.txt in Resources folder!");
+        }
+    }
+
 }
