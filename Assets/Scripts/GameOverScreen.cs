@@ -4,29 +4,36 @@ using TMPro;
 
 public class GameOverScreen : MonoBehaviour
 {
-    public GameObject gameOverPanel;
+    public GameObject gameOver;
     public Heart_Manager heartManager;
     public AudioSource gameOverSound;
-    public TextMeshProUGUI scoreText; // Reference to the TextMeshProUGUI for displaying score
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI newHighScoreText; // Add this reference in the Inspector
 
     private Game_Manager game_Manager;
-    private bool gameOver = false;
+    private bool soundPlayed = false;
 
     void Start()
     {
         game_Manager = GetComponent<Game_Manager>();
-        gameOverPanel.SetActive(false);
+        gameOver.SetActive(false);
         Time.timeScale = 1f;
+
+        if (newHighScoreText != null)
+        {
+            newHighScoreText.gameObject.SetActive(false); // Hide it initially
+        }
     }
 
     void Update()
     {
-        if (!gameOver && heartManager.lives <= 0)
+        if (!soundPlayed && heartManager.lives <= 0)
         {
-            gameOver = true;
-            gameOverPanel.SetActive(true);
+            soundPlayed = true;
+            gameOver.SetActive(true);
             PlayGameOverSound();
-            DisplayFinalScore(); // Display score when game over screen is shown
+            DisplayFinalScore();
+            CheckHighScore(); // Check if new high score was reached
         }
     }
 
@@ -36,11 +43,9 @@ public class GameOverScreen : MonoBehaviour
         int incorrectGuess = (game_Manager.saveSystem.LoadData("incorrect_guess") as int? ?? 0);
         int highscore = (game_Manager.saveSystem.LoadData("highscore") as int? ?? 0);
         int gameCount = (game_Manager.saveSystem.LoadData("gameCount") as int? ?? 0);
-        float totalPlaytime = (game_Manager.saveSystem.LoadData("totalPlaytime") as float? ?? 0f);
 
         correctGuess += game_Manager.correct_guess;
         incorrectGuess += game_Manager.incorrect_guess;
-        totalPlaytime += game_Manager.sessionPlaytime;
         gameCount++;
 
         if (highscore < game_Manager.score)
@@ -51,7 +56,6 @@ public class GameOverScreen : MonoBehaviour
         game_Manager.saveSystem.SaveData("correct_guess", correctGuess);
         game_Manager.saveSystem.SaveData("incorrect_guess", incorrectGuess);
         game_Manager.saveSystem.SaveData("gameCount", gameCount);
-        game_Manager.saveSystem.SaveData("totalPlaytime", totalPlaytime);
 
         SceneManager.LoadScene(index);
     }
@@ -67,5 +71,14 @@ public class GameOverScreen : MonoBehaviour
     void DisplayFinalScore()
     {
         scoreText.text = game_Manager.scoreText.text;
+    }
+
+    void CheckHighScore()
+    {
+        int highscore = (game_Manager.saveSystem.LoadData("highscore") as int? ?? 0);
+        if (game_Manager.score >= highscore && newHighScoreText != null)
+        {
+            newHighScoreText.gameObject.SetActive(true);
+        }
     }
 }
