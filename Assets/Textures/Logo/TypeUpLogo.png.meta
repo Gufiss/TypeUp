@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 054001b9129613e40a6b0f097f88e8b8
+guid: aba5ee100962d6d4589ac5fe1573ad0d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4754157907817486003
-    second: settingswithshade_0
+      213: 3194356462854225107
+    second: TypeUpLogo_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: settingswithshade_0
+      name: TypeUpLogo_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 737
-        height: 415
+        width: 192
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3b65395bd692af140800000000000000
-      internalID: 4754157907817486003
+      spriteID: 3dc366e4742a45c20800000000000000
+      internalID: 3194356462854225107
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      settingswithshade_0: 4754157907817486003
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
