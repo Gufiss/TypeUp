@@ -1,14 +1,13 @@
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using TMPro;
-using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
     public bool Paused = false;
     public GameObject pauseMenu;
-    public GameObject countdown;
+    public TextMeshProUGUI countdown;
 
     private Game_Manager game_Manager;
 
@@ -44,17 +43,22 @@ public class PauseMenu : MonoBehaviour
     public void Play()
     {
         pauseMenu.SetActive(false);
-
         StartCoroutine(ResumeWithCountdown());
     }
 
     private IEnumerator ResumeWithCountdown()
     {
-        countdown.SetActive(true);
+        countdown.text = "1";
+        yield return new WaitForSecondsRealtime(1f);
+        countdown.text = "2";
+        yield return new WaitForSecondsRealtime(1f);
+        countdown.text = "3";
+        yield return new WaitForSecondsRealtime(1f);
+        countdown.text = "GO!";
+        yield return new WaitForSecondsRealtime(1f);
+        countdown.text = "";
 
-        yield return new WaitForSecondsRealtime(3f); 
-
-        countdown.SetActive(false);
+        yield return new WaitForSecondsRealtime(1f);
 
         Time.timeScale = 1f;
         Paused = false;
@@ -73,5 +77,4 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
-
 }
