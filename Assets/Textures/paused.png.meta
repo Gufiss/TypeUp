@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 151b371f994312543a26d54fab61e20f
+guid: e9734726ad69c72419873227de877d2f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8128959789174832139
-    second: pause menu image_0
+      213: -545366476686976958
+    second: paused_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: pause menu image_0
+      name: paused_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b0c3333fbdddfc070800000000000000
-      internalID: 8128959789174832139
+      spriteID: 2489aa434187e68f0800000000000000
+      internalID: -545366476686976958
       vertices: []
       indices: 
       edges: []
