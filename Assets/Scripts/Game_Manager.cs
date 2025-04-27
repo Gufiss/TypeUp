@@ -25,6 +25,7 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector] public int incorrect_guess = 0;
 
     public TextMeshProUGUI scoreText;
+    public TextMeshPro textMesh;
 
     [HideInInspector]
     public int score = 0;
@@ -125,6 +126,22 @@ public class Game_Manager : MonoBehaviour
                 packageScript.endLoc = locations[spawnIndex].end;
                 packageScript.toType = GenerateWord();
                 packageScript.manager = this;
+
+            TextMeshProUGUI packageText = newBox.GetComponentInChildren<TextMeshProUGUI>(); 
+            if (packageText == null)
+            {
+                TextMeshPro tmp = newBox.GetComponentInChildren<TextMeshPro>();
+                if (tmp != null)
+                {
+                    float savedFontSize = PlayerPrefs.GetFloat("FontSize", 7f);
+                    tmp.fontSize = savedFontSize;
+                }
+            }
+            else
+            {
+                float savedFontSize = PlayerPrefs.GetFloat("FontSize", 7f);
+                packageText.fontSize = savedFontSize;
+            }
 
                 activePackages.Add(newBox);
             }
