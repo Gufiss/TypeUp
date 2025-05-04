@@ -43,9 +43,11 @@ public class GameOverScreen : MonoBehaviour
         int incorrectGuess = (game_Manager.saveSystem.LoadData("incorrect_guess") as int? ?? 0);
         int highscore = (game_Manager.saveSystem.LoadData("highscore") as int? ?? 0);
         int gameCount = (game_Manager.saveSystem.LoadData("gameCount") as int? ?? 0);
+        float totalPlaytime = (game_Manager.saveSystem.LoadData("totalPlaytime") as float? ?? 0f);
 
         correctGuess += game_Manager.correct_guess;
         incorrectGuess += game_Manager.incorrect_guess;
+        totalPlaytime += game_Manager.sessionPlaytime;
         gameCount++;
 
         if (highscore < game_Manager.score)
@@ -56,6 +58,7 @@ public class GameOverScreen : MonoBehaviour
         game_Manager.saveSystem.SaveData("correct_guess", correctGuess);
         game_Manager.saveSystem.SaveData("incorrect_guess", incorrectGuess);
         game_Manager.saveSystem.SaveData("gameCount", gameCount);
+        game_Manager.saveSystem.SaveData("totalPlaytime", totalPlaytime);
 
         SceneManager.LoadScene(index);
     }
