@@ -25,7 +25,7 @@ public class Game_Manager : MonoBehaviour
     [HideInInspector] public int incorrect_guess = 0;
 
     public TextMeshProUGUI scoreText;
-    public TextMeshPro textMesh;
+    public TextMeshProUGUI timer;
 
     [HideInInspector]
     public int score = 0;
@@ -107,6 +107,9 @@ public class Game_Manager : MonoBehaviour
         if (!gameEnd)
         {
             sessionPlaytime += Time.deltaTime;
+            int minutes = Mathf.FloorToInt(sessionPlaytime / 60);
+            int seconds = Mathf.FloorToInt(sessionPlaytime % 60);
+            timer.text = $"{minutes:00}:{seconds:00}";
 
             if (current_spawn_timer <= 0)
             {
