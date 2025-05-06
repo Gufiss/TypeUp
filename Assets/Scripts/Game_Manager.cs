@@ -9,7 +9,7 @@ public class Game_Manager : MonoBehaviour
 
     [HideInInspector] public SaveSystem saveSystem;
 
-    float cur_diff = 3;
+    public float cur_diff;
     float max_diff;
     float game_speed;
     float current_spawn_timer = 0;
@@ -52,6 +52,7 @@ public class Game_Manager : MonoBehaviour
     {
         game_speed = 1.0f;
         saveSystem = GetComponent<SaveSystem>();
+        cur_diff = (saveSystem.LoadData("dif") as float? ?? 3f);
         LoadWords();
         Invoke(nameof(FocusInputField), 0.1f);
         UpdateScoreText();

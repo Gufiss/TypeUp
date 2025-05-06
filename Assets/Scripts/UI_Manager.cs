@@ -21,6 +21,11 @@ public class UI_Manager : MonoBehaviour
     public Button musicButton;
     public Button sfxButton;
 
+    public Button MediumNew, HardNew;
+    public GameObject NewGamePanel;
+    bool NewGameToggle = false;
+
+
     void Start()
     {
         if (PlayerPrefs.HasKey("MusicVolume"))
@@ -79,15 +84,15 @@ public class UI_Manager : MonoBehaviour
         if (music_toggle)
         {
             obj.image.sprite = music_on;
-            PlayerPrefs.SetInt("MusicEnabled", 1); 
+            PlayerPrefs.SetInt("MusicEnabled", 1);
         }
         else
         {
             obj.image.sprite = music_off;
-            PlayerPrefs.SetInt("MusicEnabled", 0); 
+            PlayerPrefs.SetInt("MusicEnabled", 0);
         }
 
-        PlayerPrefs.Save(); 
+        PlayerPrefs.Save();
     }
 
 
@@ -127,5 +132,32 @@ public class UI_Manager : MonoBehaviour
         sfxSource.volume = sfxSlider.value;
         PlayerPrefs.SetFloat("SfxVolume", sfxSlider.value);
         PlayerPrefs.Save();
+    }
+
+    public void ToggleNewGame()
+    {
+        SaveSystem ss = GetComponent<SaveSystem>();
+
+        int hs = ss.LoadData("highscore") as int? ?? 0;
+
+        SetButtonState(MediumNew, hs >= 100);
+        SetButtonState(HardNew, hs >= 200);
+
+        NewGamePanel.SetActive(!NewGameToggle);
+        NewGameToggle = !NewGameToggle;
+    }
+
+    private void SetButtonState(Button button, bool isEnabled)
+    {
+        ColorBlock colors = button.colors;
+        colors.normalColor = new Color(colors.normalColor.r, colors.normalColor.g, colors.normalColor.b, isEnabled ? 1f : 0.25f);
+        button.interactable = isEnabled;
+        button.colors = colors;
+    }
+
+    public void StartNewGame(float dif)
+    {
+        GetComponent<SaveSystem>().SaveData("dif", dif);
+        SceneManager.LoadScene(1);
     }
 }
