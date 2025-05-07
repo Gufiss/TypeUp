@@ -48,11 +48,11 @@ public class PauseMenu : MonoBehaviour
 
     private IEnumerator ResumeWithCountdown()
     {
-        countdown.text = "1";
+        countdown.text = "3";
         yield return new WaitForSecondsRealtime(1f);
         countdown.text = "2";
         yield return new WaitForSecondsRealtime(1f);
-        countdown.text = "3";
+        countdown.text = "1";
         yield return new WaitForSecondsRealtime(1f);
         countdown.text = "GO!";
         yield return new WaitForSecondsRealtime(1f);
