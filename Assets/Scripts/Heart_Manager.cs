@@ -10,17 +10,29 @@ public class Heart_Manager : MonoBehaviour
 
     public Image h1;
     public Image h2; 
-    public Image h3; 
+    public Image h3;
+
+    //Audio
+    public AudioSource loseLife;
 
     void Start()
     {
         UpdateHearts();
+
+        //Audio
+        loseLife = gameObject.AddComponent<AudioSource>();
+        loseLife.volume = 0.01f;
+        loseLife.clip = Resources.Load<AudioClip>("BuzzerLost");
+        loseLife.loop = false;
     }
 
     public void LoseLife()
     {
         if (lives > 0)
         {
+            //Audio
+            loseLife.Play();
+
             lives--;
             UpdateHearts();
         }
