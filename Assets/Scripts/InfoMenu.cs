@@ -55,8 +55,6 @@ public class InfoMenu : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         countdown.text = "";
 
-        yield return new WaitForSecondsRealtime(1f);
-
         Time.timeScale = 1f;
         Paused = false;
     }
