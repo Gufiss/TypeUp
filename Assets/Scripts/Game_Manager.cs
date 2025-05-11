@@ -47,9 +47,17 @@ public class Game_Manager : MonoBehaviour
     public Heart_Manager heartManager;
     public Tilemap tilemap;
 
+    //Audio
+    public AudioSource correctSound;
+
 
     void Start()
     {
+        //Audio
+        correctSound = gameObject.AddComponent<AudioSource>();
+        correctSound.volume = 0.2f;
+        correctSound.clip = Resources.Load<AudioClip>("Pickup_Box");
+
         game_speed = 1.0f;
         saveSystem = GetComponent<SaveSystem>();
         cur_diff = (saveSystem.LoadData("dif") as float? ?? 3f);
@@ -89,6 +97,9 @@ public class Game_Manager : MonoBehaviour
 
             if (removeIndex != -1)
             {
+                //Audio
+                correctSound.Play();
+
                 GameObject packageToRemove = activePackages[removeIndex];
                 Instantiate(package_rem, packageToRemove.transform.position, packageToRemove.transform.rotation);
                 activePackages.RemoveAt(removeIndex);
@@ -228,5 +239,6 @@ public class Game_Manager : MonoBehaviour
             Debug.LogError("Could not find words.txt in Resources folder!");
         }
     }
+
 
 }
