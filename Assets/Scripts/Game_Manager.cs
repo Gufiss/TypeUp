@@ -51,6 +51,23 @@ public class Game_Manager : MonoBehaviour
     public AudioSource correctSound;
 
 
+    [SerializeField] private TMP_FontAsset defaultFont;
+
+    // Other existing variables and methods...
+
+    /// <summary>
+    /// Method to set the font for a specific Package.
+    /// </summary>
+    /// <param name="package">The Package GameObject.</param>
+    public void ApplyFontToPackage(GameObject package)
+    {
+        TMP_Text packageText = package.GetComponentInChildren<TMP_Text>();
+        if (packageText != null && defaultFont != null)
+        {
+            packageText.font = defaultFont;
+        }
+    }
+
     void Start()
     {
         //Audio
@@ -141,8 +158,8 @@ public class Game_Manager : MonoBehaviour
                 packageScript.endLoc = locations[spawnIndex].end;
                 packageScript.toType = GenerateWord();
                 packageScript.manager = this;
-
-            TextMeshProUGUI packageText = newBox.GetComponentInChildren<TextMeshProUGUI>(); 
+                ApplyFontToPackage(newBox);
+                TextMeshProUGUI packageText = newBox.GetComponentInChildren<TextMeshProUGUI>(); 
             if (packageText == null)
             {
                 TextMeshPro tmp = newBox.GetComponentInChildren<TextMeshPro>();
